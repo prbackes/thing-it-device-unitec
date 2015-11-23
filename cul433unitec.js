@@ -7,7 +7,7 @@ module.exports = {
         family: "cul",
         plugin: "cul433unitec",
         label: "CUL 433 MHz transceiver switching Unitec remote control sockets",
-        tangible: yes,
+        tangible: true,
         actorTypes: [],
         sensorTypes: [],
         state : [{
