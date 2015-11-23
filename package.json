@@ -1,0 +1,21 @@
+{
+  "name": "thing-it-device-unitec",
+  "version": "0.0.1",
+  "description": "[thing-it-node] Device Plugin for 433 MHz CUL (CC1101 USB Lite) switching Unitec remote controlled sockets.",
+  "authors": "Raimund Backes",
+  "keywords": [
+    "IoT",
+    "thing-it",
+    "Home Automation",
+    "SmartHome",
+    "433 MHz"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prbackes/thing-it-device-unitec"
+  },
+  "dependencies": {
+    "q": "^1.4.1",
+    "cul": "^0.1.2"
+  }
+}
