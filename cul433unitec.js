@@ -21,20 +21,32 @@ module.exports = {
             id: "switchOn",
             label: "Switch Socket to state On"
         },
-        {
-            id: "switchOff",
-            label: "Switch Socket to state Off"
-        }],
+            {
+                id: "switchOff",
+                label: "Switch Socket to state Off"
+            },
+            {
+                id: "toggle",
+                label: "Toggle Switch"
+            }],
         configuration: [{
             id: "home_id",
             label: "Home ID",
             type: { id: "string"},
-            default: "FFFF"},
+            default: "00000F"
+        },
+            {
+                id: "serialport",
+                label : "Serial Port",
+                type: {id:"string"},
+                default: "/dev/ttyUSB0"
+            },
             {
                 id: "socket_id",
                 label: "Socket ID",
                 type: {id: "string"},
-                default: "00F"}]
+                default: "F0FF"
+            }]
     },
     create: function (device) {
         return new Cul433Unitec();
@@ -48,7 +60,7 @@ var Cul = require('cul');
 
 /*
  Inside a UniTec socket you find 10 dip switches for setting the code.
- If a switch is set, it is coded with a '0'. If it is not set, it will be represented by a 'F'.
+ If a switch is set, it is coded with a '0'. If it is not set, it will be represented by an 'F'.
  For turning on the sequence '0F' and for turning off 'F0' has to be appended to the code.
  */
 
@@ -85,7 +97,7 @@ function Cul433Unitec() {
             this.cul.on('data', function(raw) {
                 console.log(raw);
                 this.publishStateChange();
-            })
+            }.bind(this))
 
             deferred.resolve();
         }
@@ -109,12 +121,26 @@ function Cul433Unitec() {
     Cul433Unitec.prototype.switchOn = function () {
         if (this.isSimulated()) {
             console.log("Cul433Unitec.switchOn");
+            this.state.switch = true;
         }
         else {
-            this.cul.write(localconf.send_intertechno + this.configuration.home_id + this.configuration.socket_id + localconf.on);
-            this.state.switch = { switch : true};
+            var command = localconf.send_intertechno + this.configuration.home_id + this.configuration.socket_id + localconf.on;
+            console.log("Command: "+command);
+            this.cul.write(command);
+            this.state.switch = true;
         }
         this.publishStateChange();
+    };
+    /**
+     *
+     */
+    Cul433Unitec.prototype.toggle = function () {
+        if (this.state.switch) {
+            this.switchOff();
+        }
+        else {
+            this.switchOn()
+        }
     };
     /**
      *
@@ -122,10 +148,11 @@ function Cul433Unitec() {
     Cul433Unitec.prototype.switchOff = function () {
         if (this.isSimulated()) {
             console.log("Cul433Unitec.switchOff");
+            this.state.switch = false;
         }
         else {
             this.cul.write(localconf.send_intertechno + this.configuration.home_id + this.configuration.socket_id + localconf.off);
-            this.state.switch = { switch : false};
+            this.state.switch = false;
         }
         this.publishStateChange();
     };

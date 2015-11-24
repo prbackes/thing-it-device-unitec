@@ -1,7 +1,7 @@
 {
   "name": "thing-it-device-unitec",
   "version": "0.0.2",
-  "description": "[thing-it-node] Device Plugin for 433 MHz CUL (CC1101 USB Lite) switching Unitec remote controlled sockets.",
+  "description": "[thing-it-node] Device Plugin for 433 MHz CUL (CC1101 USB Lite) switching Unitec RC sockets.",
   "authors": "Raimund Backes",
   "keywords": [
     "IoT",
